@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bounce</title>
+</head>
+<body>
+    <canvas id="canvas" width="500" height="500"></canvas>
+
+    <script>
+        let canvas = document.getElementById("canvas");
+        let context = canvas.getContext("2d");
+        const points = [];
+        const POINTS_COUNT = 4;
+        for (let i = 0; i < POINTS_COUNT; i++) {
+            points.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                xDirection: 1,
+                yDirection: 1,
+                width: Math.random() * 150,
+                height: Math.random() * 120,
+                color: 'red'
+            });
+        }
+        
+        const draw = function (point) {
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            points.forEach(function (point) {
+                context.fillStyle = point.color;
+                context.fillRect(point.x, point.y, point.width, point.height);
+                if ((point.x + point.width) >= canvas.width || point.x <= 0) {
+                    point.xDirection *= -1;
+                }
+                if ((point.y + point.height) >= canvas.height || point.y <= 0) {
+                    point.yDirection *= -1;
+                }
+                point.x += point.xDirection;
+                point.y += point.yDirection;
+            });
+        }
+        const animate = function () {
+            draw();
+            setTimeout(animate, 5);
+        }
+        animate();
+    </script>
+</body>
+</html>
